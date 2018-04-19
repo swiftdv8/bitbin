@@ -1,14 +1,19 @@
-# Warning
+## warning
 
-**this repository is not maintained. Questions or suggestions can be posted [here](https://github.com/jteeuwen/discussions/issues).**
+**this repository a new fork. WIP...**
 
-## bindata
+## plan
+- maintain existing bin-data cli functionality
+- refactor to break up functions
+- provide API surface for consumption via go generate
 
-This package converts any file into managable Go source code. Useful for
+## bitbin
+
+This package converts any file into manageable Go source code. Useful for
 embedding binary data into a go program. The file data is optionally gzip
 compressed before being converted to a raw byte slice.
 
-It comes with a command line tool in the `go-bindata` sub directory.
+It comes with a command line tool in the `bitbin` sub directory.
 This tool offers a set of command line options, used to customize the
 output being generated.
 
@@ -17,7 +22,7 @@ output being generated.
 
 To install the library and command line program, use the following:
 
-	go get -u github.com/jteeuwen/go-bindata/...
+	go get -u github.com/swiftdv8/bitbin/...
 
 
 ### Usage
@@ -29,31 +34,31 @@ which allows quick access to the asset, based on its name.
 The simplest invocation generates a `bindata.go` file in the current
 working directory. It includes all assets from the `data` directory.
 
-	$ go-bindata data/
+	$ bitbin data/
 
 To include all input sub-directories recursively, use the elipsis postfix
 as defined for Go import paths. Otherwise it will only consider assets in the
 input directory itself.
 
-	$ go-bindata data/...
+	$ bitbin data/...
 
 To specify the name of the output file being generated, we use the following:
 
-	$ go-bindata -o myfile.go data/
+	$ bitbin -o myfile.go data/
 
 Multiple input directories can be specified if necessary.
 
-	$ go-bindata dir1/... /path/to/dir2/... dir3
+	$ bitbin dir1/... /path/to/dir2/... dir3
 
 
-The following paragraphs detail some of the command line options which can be 
-supplied to `go-bindata`. Refer to the `testdata/out` directory for various
+The following paragraphs detail some of the command line options which can be
+supplied to `bitbin`. Refer to the `testdata/out` directory for various
 output examples from the assets in `testdata/in`. Each example uses different
 command line options.
 
 To ignore files, pass in regexes using -ignore, for example:
 
-    $ go-bindata -ignore=\\.gitignore data/...
+    $ bitbin -ignore=\\.gitignore data/...
 
 ### Accessing an asset
 
@@ -86,7 +91,7 @@ whole server and restart it every time you make a change to a bit of
 javascript. You just want to build and launch the server once. Then just press
 refresh in the browser to see those changes. Embedding the assets with the
 `debug` flag allows you to do just that. When you are finished developing and
-ready for deployment, just re-invoke `go-bindata` without the `-debug` flag.
+ready for deployment, just re-invoke `bitbin` without the `-debug` flag.
 It will now embed the latest version of the assets.
 
 
@@ -157,7 +162,7 @@ The default behaviour of the program is to use compression.
 ### Path prefix stripping
 
 The keys used in the `_bindata` map, are the same as the input file name
-passed to `go-bindata`. This includes the path. In most cases, this is not
+passed to `bitbin`. This includes the path. In most cases, this is not
 desireable, as it puts potentially sensitive information in your code base.
 For this purpose, the tool supplies another command line flag `-prefix`.
 This accepts a portion of a path name, which should be stripped off from
@@ -165,13 +170,13 @@ the map keys and function names.
 
 For example, running without the `-prefix` flag, we get:
 
-	$ go-bindata /path/to/templates/
+	$ bitbin /path/to/templates/
 
 	_bindata["/path/to/templates/foo.html"] = path_to_templates_foo_html
 
 Running with the `-prefix` flag, we get:
 
-	$ go-bindata -prefix "/path/to/" /path/to/templates/
+	$ bitbin -prefix "/path/to/" /path/to/templates/
 
 	_bindata["templates/foo.html"] = templates_foo_html
 
@@ -188,6 +193,5 @@ and must follow the build tags syntax specified by the go tool.
 
 ### Related projects
 
-[go-bindata-assetfs](https://github.com/elazarl/go-bindata-assetfs#readme) - 
+[bitbin-assetfs](https://github.com/elazarl/bitbin-assetfs#readme) -
 implements `http.FileSystem` interface. Allows you to serve assets with `net/http`.
-
